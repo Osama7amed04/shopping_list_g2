@@ -120,4 +120,4 @@ app.*.symbols
 
 # Local Gradle/NDK settings (excluded from repo)
 **/gradle/wrapper/gradle-wrapper.properties
-**/build.gradle.kts
+
