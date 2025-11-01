@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rwad_project/on_boarding/login_or_register.dart';
-import 'package:rwad_project/on_boarding/on_boarding_list.dart';
+import 'login_or_register.dart';
+import 'on_boarding_list.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
