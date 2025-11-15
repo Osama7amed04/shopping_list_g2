@@ -1,3 +1,4 @@
+
 // import 'package:flutter/material.dart';
 // import 'package:rwad_project/add_list/add_list.dart';
 // import 'package:rwad_project/add_list/listsPage.dart';
@@ -20,6 +21,7 @@
 //     );
 //   }
 // }
+
 
 
 import 'dart:async';
@@ -112,3 +114,5 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
+

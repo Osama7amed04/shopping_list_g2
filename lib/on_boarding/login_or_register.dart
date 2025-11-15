@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rwad_project/login_firebase_ui.dart';
 
+
+
 class LoginOrRegister extends StatelessWidget {
   const LoginOrRegister({super.key});
 
@@ -35,22 +37,8 @@ class LoginOrRegister extends StatelessWidget {
             SizedBox(height: 70),
             Image.asset('assets/images/cart9.png'),
             SizedBox(height: 150),
-            // ElevatedButton(
-            //   onPressed: () {},
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: Color(0xffFF7F50),
-            //     foregroundColor: Colors.white,
-            //     minimumSize: Size(350, 50),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(15),
-            //     ),
-            //   ),
-            //   child: Text(
-            //     'Sign In',
-            //     style: TextStyle(fontSize: 20, fontFamily: 'Poppins'),
-            //   ),
-            // ),
             SizedBox(height: 10),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -67,7 +55,7 @@ class LoginOrRegister extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Get Started',
+                'Get Started',          
                 style: TextStyle(fontSize: 20, fontFamily: 'Poppins'),
               ),
             ),
