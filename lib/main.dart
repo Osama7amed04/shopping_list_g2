@@ -1,29 +1,3 @@
-
-// import 'package:flutter/material.dart';
-// import 'package:rwad_project/add_list/add_list.dart';
-// import 'package:rwad_project/add_list/listsPage.dart';
-// import 'package:rwad_project/on_boarding/on_boarding_screen.dart';
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Shopping List App',
-//       home: const Listspage(),
-//     );
-//   }
-// }
-
-
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
