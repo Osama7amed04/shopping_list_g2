@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:rwad_project/main.dart';
 
-import 'package:login_regpage/main.dart';
+//import 'package:login_regpage/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
