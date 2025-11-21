@@ -53,6 +53,10 @@ dependencies:
   flutter_animate: ^4.5.0
   flutter_svg: any
   google_fonts: ^6.1.0
+  gap: ^3.0.1
+  font_awesome_flutter: ^10.12.0
+  animated_theme_switcher: ^2.0.10
+
 
 <<<<<<< HEAD
 =======
