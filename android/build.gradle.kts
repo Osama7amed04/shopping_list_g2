@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // ✅ أضيفي ده في أول الملف
 buildscript {
     repositories {
@@ -11,7 +9,6 @@ buildscript {
     }
 }
 
->>>>>>> 36fefe4dc9642771b3ded1fb7ba5d525a6761857
 allprojects {
     repositories {
         google()
@@ -19,10 +16,7 @@ allprojects {
     }
 }
 
-<<<<<<< HEAD
-=======
 // ✅ إعدادات build directories
->>>>>>> 36fefe4dc9642771b3ded1fb7ba5d525a6761857
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory
         .dir("../../build")
@@ -33,10 +27,7 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 36fefe4dc9642771b3ded1fb7ba5d525a6761857
 subprojects {
     project.evaluationDependsOn(":app")
 }

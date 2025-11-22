@@ -1,48 +1,112 @@
 {
   "project_info": {
-    "project_number": "497912757265",
-    "project_id": "fir-project-7253a",
-    "storage_bucket": "fir-project-7253a.firebasestorage.app"
+    "project_number": "1085954467163",
+    "project_id": "gp-depi",
+    "storage_bucket": "gp-depi.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:497912757265:android:cb369941d27a5e769545b0",
+        "mobilesdk_app_id": "1:1085954467163:android:7f49cce7a93837c153a67e",
         "android_client_info": {
           "package_name": "com.example.login_regpage"
         }
       },
       "oauth_client": [
         {
-          "client_id": "497912757265-a6sboue8spj5dbpbf6jlrpubh3tbv51j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.login_regpage",
-            "certificate_hash": "1f30ba0efd2e3ce548e4305a135687d01f8b80e5"
-          }
-        },
-        {
-          "client_id": "497912757265-ahrf7c7btsv7hu6spfki8ngseip1ktn5.apps.googleusercontent.com",
+          "client_id": "1085954467163-va3ia9anqsgj34fiqitfso4n2cv3ndpi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD3nTdx-Kbw7BUxNY5qWhJmh3vRY0pqArw"
+          "current_key": "AIzaSyDDDA9RAxuW_ewWS80qVwjZppZ2jRbPMxw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "497912757265-ahrf7c7btsv7hu6spfki8ngseip1ktn5.apps.googleusercontent.com",
+              "client_id": "1085954467163-6fugtlg30cfropvtvfrtpp91hkt615ag.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "497912757265-274rc55r6nhe353ftcsul9r4butjhkum.apps.googleusercontent.com",
+              "client_id": "1085954467163-00lnsciiscmmf48k3e5l68c0iuodpoep.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.loginRegpage"
+                "bundle_id": "com.example.shoppingList"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085954467163:android:77ae124ff1e2dd3a53a67e",
+        "android_client_info": {
+          "package_name": "com.example.rwad_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085954467163-va3ia9anqsgj34fiqitfso4n2cv3ndpi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDDA9RAxuW_ewWS80qVwjZppZ2jRbPMxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085954467163-6fugtlg30cfropvtvfrtpp91hkt615ag.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1085954467163-00lnsciiscmmf48k3e5l68c0iuodpoep.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoppingList"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085954467163:android:5f71cd0e4203549853a67e",
+        "android_client_info": {
+          "package_name": "com.example.shopping_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085954467163-va3ia9anqsgj34fiqitfso4n2cv3ndpi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDDA9RAxuW_ewWS80qVwjZppZ2jRbPMxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085954467163-6fugtlg30cfropvtvfrtpp91hkt615ag.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1085954467163-00lnsciiscmmf48k3e5l68c0iuodpoep.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoppingList"
               }
             }
           ]

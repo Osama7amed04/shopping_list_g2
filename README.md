@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # rwad_project
 =======
 # login_regpage

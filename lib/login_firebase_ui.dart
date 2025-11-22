@@ -3,9 +3,12 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/Home.dart';
 
 class LoginFirebaseUi extends StatefulWidget {
-  const LoginFirebaseUi({super.key});
+  final Function(bool)? onThemeChanged;
+  const LoginFirebaseUi({super.key, this.onThemeChanged});
 
   @override
   State<LoginFirebaseUi> createState() => _LoginFirebaseUiState();
@@ -13,6 +16,20 @@ class LoginFirebaseUi extends StatefulWidget {
 
 class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
   FirebaseAuth auth = FirebaseAuth.instance;
+  bool isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadThemePreference();
+  }
+
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +37,20 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const SuccessScreen();
+          return Home(
+            isDark: isDarkMode,
+            onThemeChanged: (value) async {
+              setState(() {
+                isDarkMode = value;
+              });
+              // حفظ الثيم في SharedPreferences
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool('isDarkMode', value);
+              widget.onThemeChanged?.call(value);
+            },
+            userName: snapshot.data?.displayName ?? 'User',
+            userEmail: snapshot.data?.email ?? 'No email',
+          );
         }
 
         return Scaffold(
@@ -32,7 +62,7 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
                   EmailAuthProvider(),
                   GoogleProvider(
                     clientId:
-                    "497912757265-ahrf7c7btsv7hu6spfki8ngseip1ktn5.apps.googleusercontent.com",
+                        "497912757265-ahrf7c7btsv7hu6spfki8ngseip1ktn5.apps.googleusercontent.com",
                   ),
                 ],
                 actions: [
@@ -40,7 +70,21 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SuccessScreen()),
+                          builder: (context) => Home(
+                                isDark: isDarkMode,
+                                onThemeChanged: (value) async {
+                                  setState(() {
+                                    isDarkMode = value;
+                                  });
+                                  // حفظ الثيم في SharedPreferences
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setBool('isDarkMode', value);
+                                  widget.onThemeChanged?.call(value);
+                                },
+                                userName: state.user?.displayName ?? 'User',
+                                userEmail: state.user?.email ?? 'No email',
+                              )),
                     );
                   }),
                 ],
@@ -55,24 +99,27 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
                         height: 90,
                       ),
                       const SizedBox(width: 7),
-                      Text(
-                        'Shopping List',
-                        style: GoogleFonts.dancingScript(
-                          textStyle: TextStyle(
-                            fontSize: 38,
-                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Text(
+                          'Shopping List',
+                          style: GoogleFonts.dancingScript(
+                            textStyle: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
                               color: Colors.grey[800],
+                            ),
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
                 ),
-                subtitleBuilder: (context, action) => const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                subtitleBuilder: (context, action) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     'Welcome to our app',
-                    style: TextStyle(color: Colors.black54),
+                    style: TextStyle(color: Colors.grey[700]),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -82,70 +129,5 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
         );
       },
     );
-  }
-}
-
-class SuccessScreen extends StatelessWidget {
-  const SuccessScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey[800],
-        title: const Text("Home Screen"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LoginFirebaseUi()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Logged in successfully 🎉",
-              style: TextStyle(fontSize: 22, color: Colors.black),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF5A77),
-                padding:
-                const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              ),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const LoginFirebaseUi()),
-                );
-              },
-              child: const Text(
-                "Logout",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-        );
   }
 }

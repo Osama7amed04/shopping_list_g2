@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rwad_project/add_list/listsPage.dart';
 
 class AddList extends StatefulWidget {
   final int? updateIndex;
-  const AddList({super.key, this.updateIndex});
+  final Function(String, List<Map<String, dynamic>>)? onListAdded;
+  const AddList({super.key, this.updateIndex, this.onListAdded});
 
   @override
   State<AddList> createState() => _AddListState();
@@ -15,6 +14,7 @@ List<Map<String, dynamic>> items = [];
 class _AddListState extends State<AddList> {
   final _titleController = TextEditingController();
   final _itemsController = TextEditingController();
+  final _assignedToController = TextEditingController();
   int idx = 0;
 
   @override
@@ -33,17 +33,26 @@ class _AddListState extends State<AddList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFAFAFA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             ////////////////// Title /////////////////////
             ListTile(
               leading: IconButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Listspage()),
-                ),
+                onPressed: () {
+                  if (_titleController.text.isNotEmpty &&
+                      widget.onListAdded != null) {
+                    // حساب كل العناصر في كل categories
+                    List<Map<String, dynamic>> allItems = [];
+                    if (idx < items.length && items[idx]['items'] != null) {
+                      allItems =
+                          List<Map<String, dynamic>>.from(items[idx]['items']);
+                    }
+                    widget.onListAdded!(_titleController.text, allItems);
+                  }
+                  Navigator.pop(context);
+                },
                 icon: Icon(
                   Icons.arrow_back_ios_new,
                   color: Colors.grey,
@@ -55,7 +64,7 @@ class _AddListState extends State<AddList> {
                 autofocus: true,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                   fontWeight: FontWeight.bold,
                   fontSize: 23,
                 ),
@@ -63,7 +72,9 @@ class _AddListState extends State<AddList> {
                   hint: Text(
                     'title',
                     style: TextStyle(
-                      color: Colors.black45,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey.shade600
+                          : Colors.black45,
                       fontWeight: FontWeight.bold,
                       fontSize: 23,
                     ),
@@ -82,34 +93,45 @@ class _AddListState extends State<AddList> {
                   });
                 },
               ),
-              trailing: Icon(Icons.person_add_alt_1, color: Colors.grey),
+              trailing: Icon(Icons.person_add_alt_1,
+                  color: Theme.of(context).iconTheme.color),
             ),
             SizedBox(height: 10),
             ////////////////// Add Items Container /////////////////
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: 350,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 226, 225, 225),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: TextField(
-                      controller: _itemsController,
-                      decoration: InputDecoration(
-                        hint: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Text(
-                            'Enter item...',
-                            style: TextStyle(color: Colors.black54),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey.shade800
+                          : const Color.fromARGB(255, 226, 225, 225),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: TextField(
+                        controller: _itemsController,
+                        decoration: InputDecoration(
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Text(
+                              'Enter item...',
+                              style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.grey.shade600
+                                    : Colors.black54,
+                              ),
+                            ),
                           ),
+                          enabledBorder: InputBorder.none,
+                          border:
+                              OutlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        enabledBorder: InputBorder.none,
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
                       ),
                     ),
                   ),
@@ -117,7 +139,9 @@ class _AddListState extends State<AddList> {
                 IconButton(
                   icon: Icon(
                     Icons.send_rounded,
-                    color: const Color.fromARGB(255, 201, 199, 199),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey.shade600
+                        : Color.fromARGB(255, 201, 199, 199),
                   ),
                   onPressed: () {
                     setState(() {
@@ -126,52 +150,126 @@ class _AddListState extends State<AddList> {
                         items[idx]['items'].add({
                           'item': _itemsController.text,
                           'done': false,
+                          'assignedTo': _assignedToController.text.isEmpty
+                              ? 'All Members'
+                              : _assignedToController.text,
                         });
                         _itemsController.clear();
+                        _assignedToController.clear();
                       }
                     });
                   },
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            ////////////////// Assigned To Container /////////////////
+            Container(
+              height: 45,
+              margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey.shade800
+                    : const Color.fromARGB(255, 226, 225, 225),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: TextField(
+                  controller: _assignedToController,
+                  decoration: InputDecoration(
+                    hint: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Assigned to... (or leave empty for All Members)',
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade600
+                              : Colors.black54,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    enabledBorder: InputBorder.none,
+                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
             Expanded(
               child: items.length <= idx || items[idx]['items'].isEmpty
                   ? Center(
                       child: Text(
                         'No items yet',
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade600
+                              : Colors.grey,
+                          fontSize: 16,
+                        ),
                       ),
                     )
                   : ListView.builder(
                       itemCount: items[idx]['items'].length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: IconButton(
-                            icon: items[idx]['items'][index]['done']
-                                ? Icon(
-                                    Icons.check_circle_outline_outlined,
-                                    color: Colors.lightGreenAccent,
-                                  )
-                                : Icon(Icons.add_circle_outline),
-                            onPressed: () {
-                              setState(() {
-                                items[idx]['items'][index]['done'] =
-                                    !items[idx]['items'][index]['done'];
-                              });
-                            },
-                          ),
-                          title: Text(
-                            items[idx]['items'][index]['item'],
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                items[idx]['items'].removeAt(index);
-                              });
-                            },
-                            icon: Icon(Icons.close, color: Colors.red),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: ListTile(
+                            leading: IconButton(
+                              icon: items[idx]['items'][index]['done']
+                                  ? Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Colors.lightGreenAccent,
+                                    )
+                                  : Icon(
+                                      Icons.add_circle_outline,
+                                      color: Theme.of(context).iconTheme.color,
+                                    ),
+                              onPressed: () {
+                                setState(() {
+                                  items[idx]['items'][index]['done'] =
+                                      !items[idx]['items'][index]['done'];
+                                });
+                              },
+                            ),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  items[idx]['items'][index]['item'],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Assigned to: ${items[idx]['items'][index]['assignedTo'] ?? 'All Members'}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.grey.shade600
+                                        : Colors.grey.shade700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  items[idx]['items'].removeAt(index);
+                                });
+                              },
+                              icon: Icon(Icons.close, color: Colors.red),
+                            ),
                           ),
                         );
                       },

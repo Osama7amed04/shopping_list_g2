@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'login_firebase_ui.dart';
-import '../on_boarding/on_boarding_screen.dart';
+import 'on_boarding/on_boarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

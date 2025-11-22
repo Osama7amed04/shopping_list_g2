@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rwad_project/add_list/add_list.dart';
+import 'add_list.dart';
 
 class Listspage extends StatefulWidget {
   const Listspage({super.key});
@@ -36,12 +36,10 @@ class _ListspageState extends State<Listspage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          AddList(updateIndex: index), 
+                      builder: (context) => AddList(updateIndex: index),
                     ),
                   );
                 },
-
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20.0,

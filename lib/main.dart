@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'login_firebase_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'on_boarding/on_boarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,8 +10,33 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadThemePreference();
+  }
+
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    });
+  }
+
+  Future<void> _saveThemePreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +44,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Firebase Login',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFFF6F6), // خلفية وردية فاتحة
-        primaryColor: const Color(0xFFFF5A77), // لون البطيخة
+        scaffoldBackgroundColor: const Color(0xFFFFF6F6),
+        primaryColor: const Color(0xFFFF5A77),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFFF5A77),
           primary: const Color(0xFFFF5A77),
-          onPrimary: Colors.white, // الكلام الأبيض داخل الزرار
+          onPrimary: Colors.white,
           secondary: const Color(0xFFFF5A77),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFF5A77), // لون الزرار بطيخي
-            foregroundColor: Colors.white, // الكلام أبيض
-            shadowColor: Colors.transparent, // بدون ظل غامق
+            backgroundColor: const Color(0xFFFF5A77),
+            foregroundColor: Colors.white,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
@@ -43,19 +69,53 @@ class MyApp extends StatelessWidget {
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: const Color(0xFFFF5A77), // نصوص مثل register
+            foregroundColor: const Color(0xFFFF5A77),
             textStyle: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
       ),
-      home: const SplashScreen(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF1a1a1a),
+        primaryColor: const Color(0xFFFF5A77),
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.dark,
+          seedColor: const Color(0xFFFF5A77),
+          primary: const Color(0xFFFF5A77),
+          onPrimary: Colors.white,
+          secondary: const Color(0xFFFF5A77),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFF5A77),
+            foregroundColor: Colors.white,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ),
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: SplashScreen(onThemeChanged: (value) {
+        setState(() {
+          isDarkMode = value;
+        });
+        _saveThemePreference(value);
+      }),
     );
   }
 }
 
 // شاشة الجيف البطيخة 🍉
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final Function(bool)? onThemeChanged;
+  const SplashScreen({super.key, this.onThemeChanged});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -68,7 +128,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginFirebaseUi()),
+        MaterialPageRoute(
+            builder: (context) =>
+                OnBoardingScreen(onThemeChanged: widget.onThemeChanged)),
       );
     });
   }
@@ -88,5 +150,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-

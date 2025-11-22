@@ -4,6 +4,23 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "name": "Flutter: Run",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "flutterMode": "debug"
+        },
+        {
+            "name": "Flutter: Run on Device",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "flutterMode": "debug"
+        }
     ]
 }

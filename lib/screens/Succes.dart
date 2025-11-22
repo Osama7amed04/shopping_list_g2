@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home.dart';
+import 'Home.dart';
 
 class Success extends StatelessWidget {
   final bool isDark;

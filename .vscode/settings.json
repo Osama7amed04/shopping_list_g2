@@ -1,0 +1,9 @@
+{
+    "dart.projectSearchDepth": 3,
+    "dart.flutterSdkPath": null,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Dart-Code.dart-code"
+    },
+    "flutter.runMode": "profile"
+}

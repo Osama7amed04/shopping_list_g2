@@ -1,4 +1,4 @@
-List<Map<String, String>> on_boarding_list = [
+List<Map<String, String>> onBoardingList = [
   {
     'title': 'Welcome to B-List!',
     'description':

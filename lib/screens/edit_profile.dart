@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'avatar_selector.dart';
+import '../utils/user_preferences.dart';
 
 class EditProfile extends StatefulWidget {
   final bool isDark;
@@ -73,7 +75,20 @@ class _EditProfileState extends State<EditProfile> {
                     bottom: 0,
                     right: 0,
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        final selectedAvatar = await showDialog<String>(
+                          context: context,
+                          builder: (context) => AvatarSelector(
+                            currentAvatar: profileImage,
+                            isDark: widget.isDark,
+                          ),
+                        );
+
+                        if (selectedAvatar != null) {
+                          setState(() {
+                            profileImage = selectedAvatar;
+                          });
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -96,7 +111,6 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
               const SizedBox(height: 30),
-
               Container(
                 decoration: BoxDecoration(
                   color: widget.isDark ? Colors.grey[800] : Colors.grey[200],
@@ -121,13 +135,12 @@ class _EditProfileState extends State<EditProfile> {
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 18),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-
               Container(
                 decoration: BoxDecoration(
                   color: widget.isDark ? Colors.grey[800] : Colors.grey[200],
@@ -153,19 +166,27 @@ class _EditProfileState extends State<EditProfile> {
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 18),
                   ),
                 ),
               ),
               const SizedBox(height: 40),
-
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    // حفظ البيانات في SharedPreferences
+                    await UserPreferences.saveUserData(
+                      name: nameController.text,
+                      imagePath: profileImage,
+                    );
+
+                    Navigator.pop(context, {
+                      'name': nameController.text,
+                      'image': profileImage,
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFF7E5F),
