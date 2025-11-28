@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: true
+      home: false
           ? Test()
           : SplashScreen(onThemeChanged: (value) {
               setState(() {
