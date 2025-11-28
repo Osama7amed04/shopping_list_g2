@@ -65,16 +65,6 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  void _moveToTrash(int index) {
-    setState(() {
-      final deletedItem = lists[index];
-      trashedLists.add(deletedItem);
-      lists.removeAt(index);
-      // شيل من الفيفورت لو موجود
-      favoriteLists.removeWhere((item) => item['id'] == deletedItem['id']);
-    });
-  }
-
   void _permanentlyDelete(int index) {
     setState(() {
       trashedLists.removeAt(index);
@@ -348,6 +338,7 @@ class _HomeState extends State<Home> {
           : ListView.builder(
               itemCount: lists.length,
               itemBuilder: (context, index) {
+                ///////////////////////////////////////////////////////////////////////////////////////////////
                 return GestureDetector(
                   onTap: () {
                     // Open list details page
@@ -355,208 +346,161 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20.0,
-                      vertical: 10,
+                      vertical: 12,
                     ),
                     child: Container(
+                      padding: const EdgeInsets.all(16.0),
                       width: double.infinity,
                       height: 170,
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              AssetImage('assets/images/lists_background.png'),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xff5ac2a0),
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    lists[index]['title'] ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 23,
-                                    ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  'text',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 23,
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        lists[index]['isFavorite'] == true
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color:
-                                            lists[index]['isFavorite'] == true
-                                                ? Colors.red
-                                                : Colors.black,
-                                        size: 24,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          lists[index]['isFavorite'] =
-                                              lists[index]['isFavorite'] == true
-                                                  ? false
-                                                  : true;
-                                          if (lists[index]['isFavorite'] ==
-                                              true) {
-                                            if (!favoriteLists.any((item) =>
-                                                item['id'] ==
-                                                lists[index]['id'])) {
-                                              favoriteLists.add(lists[index]);
-                                            }
-                                          } else {
-                                            favoriteLists.removeWhere((item) =>
-                                                item['id'] ==
-                                                lists[index]['id']);
-                                          }
-                                        });
-                                      },
-                                    ),
-                                    PopupMenuButton(
-                                      color: Colors.white,
-                                      icon: const Icon(
-                                        Icons.more_vert,
-                                        color: Colors.black,
-                                      ),
-                                      onSelected: (value) {
-                                        if (value == 'edit') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => AddList(
-                                                updateIndex: index,
-                                                onListAdded:
-                                                    (listTitle, listItems) {
-                                                  setState(() {
-                                                    lists[index]['title'] =
-                                                        listTitle;
-                                                    lists[index]['items'] =
-                                                        listItems;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          );
-                                        } else if (value == 'delete') {
-                                          _moveToTrash(index);
-                                        }
-                                      },
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 'edit',
-                                          child: Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.edit,
-                                                color: Colors.black,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(width: 10),
-                                              Text(
-                                                'Edit',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'delete',
-                                          child: Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(width: 10),
-                                              Text(
-                                                'Delete',
-                                                style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontFamily: 'Poppins',
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 6),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    '${lists[index]['items']?.length ?? 0} items',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 6),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    'Members: 1',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: double.infinity,
-                                height: 6,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 0.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.orange,
                                 ),
                               ),
+                              Row(
+                                children: [
+                                  PopupMenuButton(
+                                    color: Colors.white,
+                                    icon: const Icon(
+                                      Icons.more_vert,
+                                      color: Colors.black,
+                                    ),
+                                    onSelected: (value) {
+                                      if (value == 'edit') {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddList(
+                                              updateIndex: index,
+                                              onListAdded:
+                                                  (listTitle, listItems) {
+                                                setState(() {
+                                                  lists[index]['title'] =
+                                                      listTitle;
+                                                  lists[index]['items'] =
+                                                      listItems;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      } else if (value == 'delete') {}
+                                    },
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        value: 'edit',
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.edit,
+                                              color: Colors.black,
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              'Edit',
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      PopupMenuItem(
+                                        value: 'delete',
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontFamily: 'Poppins',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  '${lists[index]['items']?.length ?? 0} items',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  'Members: 1',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Divider(
+                              thickness: 6,
+                              color: Colors.orange,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 );
+                ///////////////////////////////////////////////////////////////////////////////////////////////
               },
             ),
       floatingActionButton: FloatingActionButton(

@@ -45,6 +45,7 @@ dependencies:
   gap: ^3.0.1
   animated_theme_switcher: ^2.0.10
   shared_preferences: ^2.2.2
+  cloud_firestore: ^4.17.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
