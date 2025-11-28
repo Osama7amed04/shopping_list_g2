@@ -14,7 +14,6 @@ List<Map<String, dynamic>> items = [];
 class _AddListState extends State<AddList> {
   final _titleController = TextEditingController();
   final _itemsController = TextEditingController();
-  final _assignedToController = TextEditingController();
   int idx = 0;
 
   @override
@@ -150,12 +149,8 @@ class _AddListState extends State<AddList> {
                         items[idx]['items'].add({
                           'item': _itemsController.text,
                           'done': false,
-                          'assignedTo': _assignedToController.text.isEmpty
-                              ? 'All Members'
-                              : _assignedToController.text,
                         });
                         _itemsController.clear();
-                        _assignedToController.clear();
                       }
                     });
                   },
@@ -163,42 +158,7 @@ class _AddListState extends State<AddList> {
               ],
             ),
             ////////////////// Assigned To Container /////////////////
-            Container(
-              height: 45,
-              margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey.shade800
-                    : const Color.fromARGB(255, 226, 225, 225),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: TextField(
-                  controller: _assignedToController,
-                  decoration: InputDecoration(
-                    hint: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        'Assigned to... (or leave empty for All Members)',
-                        style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade600
-                              : Colors.black54,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                    enabledBorder: InputBorder.none,
-                    border: OutlineInputBorder(borderSide: BorderSide.none),
-                  ),
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
+
             SizedBox(height: 10),
             Expanded(
               child: items.length <= idx || items[idx]['items'].isEmpty
