@@ -1,4 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rwad_project/helpers/cubits/cubit/get_users_cubit.dart';
+import 'package:rwad_project/screens/search_users_screen.dart';
 
 class AddList extends StatefulWidget {
   final int? updateIndex;
@@ -12,6 +17,7 @@ class AddList extends StatefulWidget {
 List<Map<String, dynamic>> items = [];
 
 class _AddListState extends State<AddList> {
+  List<String> accessedUsers = [];
   final _titleController = TextEditingController();
   final _itemsController = TextEditingController();
   int idx = 0;
@@ -92,8 +98,21 @@ class _AddListState extends State<AddList> {
                   });
                 },
               ),
-              trailing: Icon(Icons.person_add_alt_1,
-                  color: Theme.of(context).iconTheme.color),
+              trailing: InkWell(
+                onTap: () async {
+                  final user =
+                      await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => GetusersCubit(),
+                      child: SearchUsersScreen(),
+                    ),
+                  ));
+                  accessedUsers.contains(user) ? null : accessedUsers.add(user);
+                  log('$accessedUsers');
+                },
+                child: Icon(Icons.person_add_alt_1,
+                    color: Theme.of(context).iconTheme.color),
+              ),
             ),
             SizedBox(height: 10),
             ////////////////// Add Items Container /////////////////
