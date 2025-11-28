@@ -29,9 +29,10 @@ class FireStoreServices {
     return listRef.snapshots();
   }
 
-  Future<void> addListItems(
-      String creator, List<String> items, List<String> accessedUsers) async {
+  Future<void> addListItems(String listName, String creator, List<String> items,
+      List<String> accessedUsers) async {
     await listRef.add({
+      'listName': listName,
       'creator': creator,
       'items': items,
       'accessedUsers': accessedUsers,
@@ -42,11 +43,12 @@ class FireStoreServices {
     await listRef.doc(id).delete();
   }
 
-  Future<void> updateItem(String id, List<String> items) async {
-    await listRef.doc(id).update({'items': items});
-  }
-
-  Future<void> updateAccessedUsers(String id, List<String> items) async {
-    await listRef.doc(id).update({'items': items});
+  Future<void> updateList(String id, String listName, List<String> items,
+      List<String> accessedUsers) async {
+    await listRef.doc(id).update({
+      'listName': listName,
+      'items': items,
+      'accessedUsers': accessedUsers,
+    });
   }
 }
