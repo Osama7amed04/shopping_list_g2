@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rwad_project/screens/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'on_boarding/on_boarding_screen.dart';
 
@@ -102,12 +103,14 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: SplashScreen(onThemeChanged: (value) {
-        setState(() {
-          isDarkMode = value;
-        });
-        _saveThemePreference(value);
-      }),
+      home: true
+          ? Test()
+          : SplashScreen(onThemeChanged: (value) {
+              setState(() {
+                isDarkMode = value;
+              });
+              _saveThemePreference(value);
+            }),
     );
   }
 }

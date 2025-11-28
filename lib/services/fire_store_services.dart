@@ -7,11 +7,25 @@ class FireStoreServices {
     await usersRef.add({'email': email});
   }
 
-  Stream<QuerySnapshot> getUsers() {
+  Stream<QuerySnapshot> getUsersSnapshot() {
     return usersRef.snapshots();
   }
 
-  Stream<QuerySnapshot> getLists() {
+  Future<List<Map<String, dynamic>>> getUsersList() async {
+    try {
+      final ref = await usersRef.get();
+      final data = ref.docs
+          .map(
+            (e) => e.data(),
+          )
+          .toList();
+      return data;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Stream<QuerySnapshot> getListsSnapshot() {
     return listRef.snapshots();
   }
 
