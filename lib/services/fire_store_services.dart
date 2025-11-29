@@ -43,8 +43,16 @@ class FireStoreServices {
     await listRef.doc(id).delete();
   }
 
-  Future<void> updateList(String id, String listName, List<String> items,
-      List<String> accessedUsers) async {
+  Future<Map<String, dynamic>?> getList(String id) async {
+    final doc = await listRef.doc(id).get();
+    return doc.exists ? doc.data() : null;
+  }
+
+  Future<void> updateList(
+      {required String id,
+      required String listName,
+      required List<String> items,
+      required List<String> accessedUsers}) async {
     await listRef.doc(id).update({
       'listName': listName,
       'items': items,

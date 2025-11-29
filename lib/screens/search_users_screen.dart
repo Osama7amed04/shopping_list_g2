@@ -10,7 +10,6 @@ class SearchUsersScreen extends StatefulWidget {
 }
 
 class _SearchUsersScreenState extends State<SearchUsersScreen> {
-  final TextEditingController _itemsController = TextEditingController();
   String search = '';
   @override
   void initState() {
@@ -40,7 +39,6 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                     }
                   });
                 },
-                controller: _itemsController,
                 decoration: InputDecoration(
                   fillColor: Theme.of(context).brightness == Brightness.dark
                       ? Colors.grey.shade800
