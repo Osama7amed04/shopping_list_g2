@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Firebase Login',
+      title: 'B-List',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFFFF6F6),
         primaryColor: const Color(0xFFFF5A77),

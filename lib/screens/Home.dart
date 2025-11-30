@@ -5,8 +5,6 @@ import 'package:rwad_project/services/fire_store_services.dart';
 import 'package:rwad_project/widgets/item_card.dart';
 import 'logout.dart';
 import 'edit_profile.dart';
-import 'trash.dart';
-import 'favorites.dart';
 import '../add_list/add_list.dart';
 import '../utils/user_preferences.dart';
 

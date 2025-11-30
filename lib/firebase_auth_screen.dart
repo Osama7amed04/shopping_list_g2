@@ -1,6 +1,6 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import  'package:flutter/services/fire_store_services.dart'; 
+import '../services/fire_store_services.dart';
 
 class FirebaseAuthScreen extends StatelessWidget {
   const FirebaseAuthScreen({super.key});
@@ -12,18 +12,21 @@ class FirebaseAuthScreen extends StatelessWidget {
         EmailAuthProvider(),
       ],
       actions: [
-        AuthStateChangeAction<SignedUp>((context, state) async {
-          final user = state.user;
-          await FireStoreServices().addUser(user.uid, user.email!);
+        // لما user يعمل Register جديد
+        AuthStateChangeAction<UserCreated>((context, state) async {
+          final user = state.credential.user;
+          if (user != null && user.email != null) {
+            await FireStoreServices().addUser(user.uid, user.email!);
+          }
         }),
-
-      
+        // لما user يعمل Sign In
         AuthStateChangeAction<SignedIn>((context, state) async {
           final user = state.user;
-          await FireStoreServices().addUser(user.uid, user.email!);
+          if (user != null && user.email != null) {
+            await FireStoreServices().addUser(user.uid, user.email!);
+          }
         }),
       ],
-
       headerBuilder: (context, constraints, _) {
         return Padding(
           padding: const EdgeInsets.all(20.0),
@@ -39,7 +42,6 @@ class FirebaseAuthScreen extends StatelessWidget {
           ),
         );
       },
-
       subtitleBuilder: (context, action) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8),
@@ -51,7 +53,6 @@ class FirebaseAuthScreen extends StatelessWidget {
           ),
         );
       },
-
       footerBuilder: (context, _) {
         return Padding(
           padding: const EdgeInsets.only(top: 16),

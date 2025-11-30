@@ -78,7 +78,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                                     onPressed: () {
                                       Navigator.of(context).pop(email);
                                     },
-                                    icon: Icon(Icons.add)),
+                                    icon: Icon(Icons.add, color: Colors.orange)),
                               );
                             }
                             return SizedBox();
@@ -89,7 +89,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                                   onPressed: () {
                                     Navigator.of(context).pop(email);
                                   },
-                                  icon: Icon(Icons.add)),
+                                  icon: Icon(Icons.add, color: Colors.orange)),
                             );
                           }
                         },
@@ -106,6 +106,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
                       minimumSize: Size(double.infinity, 48)),
                   onPressed: () {
                     Navigator.of(context).pop();

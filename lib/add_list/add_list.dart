@@ -318,6 +318,7 @@ class _AddListState extends State<AddList> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
                               minimumSize: Size(double.infinity, 48)),
                           child: Text(
                               widget.id == null ? 'Add List' : 'Updata List'),

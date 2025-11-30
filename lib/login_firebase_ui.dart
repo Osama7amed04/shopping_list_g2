@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/Home.dart';
+import 'services/fire_store_services.dart';
 
 class LoginFirebaseUi extends StatefulWidget {
   final Function(bool)? onThemeChanged;
@@ -37,6 +38,22 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          final user = snapshot.data!;
+          // إضافة/تحديث الـ user في Firestore
+          if (user.email != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              print(
+                  '🔵 Attempting to add user: ${user.email} with UID: ${user.uid}');
+              try {
+                await FireStoreServices().addUser(user.uid, user.email!);
+                print(
+                    '✅ SUCCESS: User ${user.email} added/updated in Firestore');
+              } catch (e) {
+                print('❌ ERROR adding user: $e');
+              }
+            });
+          }
+
           return Home(
             isDark: isDarkMode,
             onThemeChanged: (value) async {
@@ -66,7 +83,35 @@ class _LoginFirebaseUiState extends State<LoginFirebaseUi> {
                   ),
                 ],
                 actions: [
-                  AuthStateChangeAction<SignedIn>((context, state) {
+                  // لما user يعمل Register جديد
+                  AuthStateChangeAction<UserCreated>((context, state) async {
+                    final user = state.credential.user;
+                    if (user != null && user.email != null) {
+                      print(
+                          '🔵 UserCreated: Adding user ${user.email} with UID: ${user.uid}');
+                      try {
+                        await FireStoreServices()
+                            .addUser(user.uid, user.email!);
+                        print('✅ User added successfully to Firestore');
+                      } catch (e) {
+                        print('❌ Error adding user: $e');
+                      }
+                    }
+                  }),
+                  // لما user يعمل Sign In
+                  AuthStateChangeAction<SignedIn>((context, state) async {
+                    final user = state.user;
+                    if (user != null && user.email != null) {
+                      print(
+                          '🟢 SignedIn: Adding/updating user ${user.email} with UID: ${user.uid}');
+                      try {
+                        await FireStoreServices()
+                            .addUser(user.uid, user.email!);
+                        print('✅ User updated successfully in Firestore');
+                      } catch (e) {
+                        print('❌ Error updating user: $e');
+                      }
+                    }
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
