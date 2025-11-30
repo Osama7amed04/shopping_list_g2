@@ -8,6 +8,8 @@
   [![Flutter](https://img.shields.io/badge/Flutter-Cross%20Platform-02569B?logo=flutter)](https://flutter.dev)
   [![Firebase](https://img.shields.io/badge/Firebase-Cloud-FFCA28?logo=firebase)](https://firebase.google.com)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+  
+  ### 📥 [تحميل التطبيق (APK)](https://drive.google.com/file/d/13BH9RfCDj8fsQQKLMQJGKuxbZnSeYSyA/view?usp=drivesdk)
 </div>
 
 ---
@@ -93,7 +95,7 @@ flutter run
 
 تم تطوير هذا التطبيق كمشروع تخرج ضمن مبادرة **DEPI** - مسار Flutter Cross-Platform
 
-### أعضاء الفريق (بالترتيب الأبجدي):
+### أعضاء الفريق :
 
 - **ENG. Osama El-Kayyal**
 - **ENG. Ahmed Hossam**
@@ -135,7 +137,6 @@ lib/
 
 نتقدم بالشكر لكل من ساهم في إنجاح هذا المشروع:
 - مبادرة **DEPI** لتوفير فرصة التعلم والتطوير
-- مجتمع Flutter العربي للدعم المستمر
 - جميع المدربين والموجهين على التوجيه القيم
 
 ---
