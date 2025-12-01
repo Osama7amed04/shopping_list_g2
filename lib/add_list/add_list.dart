@@ -196,7 +196,7 @@ class _AddListState extends State<AddList> {
                                     : const Color.fromARGB(255, 226, 225, 225),
                                 filled: true,
                                 hint: Text(
-                                  'Enter Member...',
+                                  'Enter Item...',
                                   style: TextStyle(
                                     color: Theme.of(context).brightness ==
                                             Brightness.dark
